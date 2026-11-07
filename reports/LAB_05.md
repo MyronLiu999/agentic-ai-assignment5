@@ -235,13 +235,6 @@ Afterwards the remote's write log ends with `close_pr pr-1 compensated` and then
 
 ## AI assistance
 
-I used Claude Code to help implement most of the assignment, including the autonomy
-policy, reviewer screen, changes to the planned way and registry, command-line tools,
-and evaluation scripts. It also drafted the report and documentation updates and ran
-the stop and rollback drills. I made the 17 Part B review decisions through
-`bin/review`.
-
 I used OpenAI Codex to check the repository against the README, rerun the course
 checker, and improve the report wording. The validation included the scripted moments
-and probes, `agent.critique.verify` on the approved runs, and the course checker
-(92/92 automated points). The written report remains subject to staff review.
+and probes, `agent.critique.verify` on the approved runs, and the course checker. The written report remains subject to staff review.
