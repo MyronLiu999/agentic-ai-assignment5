@@ -1,0 +1,27 @@
+{
+ "run_id": "planned-4329-s01-88d577",
+ "action": "open_pr",
+ "action_class": "open_pr",
+ "args": {
+  "issue": "issue-4329",
+  "branch": "repomind/issue-4329",
+  "title": "Clarify error message for malformed row import issue",
+  "body": "File: src/i18n/en.json\n\nThe existing error message 'Malformed row: the number of columns does not match the header' in src/i18n/en.json misleadingly suggests that the issue is with column count. This proposal suggests rewording the error message to better reflect the issue with handling multi-line memos in imports, ensuring users understand the nature of the problem more accurately and might include actionable next steps."
+ },
+ "facts": {
+  "issue": 4329,
+  "issue_opened_by_agent": false,
+  "minutes_since_human_comment": 27.2,
+  "label": null,
+  "branch": "repomind/issue-4329",
+  "branch_protected": false,
+  "base": "develop",
+  "target_created_by_agent": true,
+  "paths": []
+ },
+ "kind": "approval",
+ "column": "requires_approval",
+ "issue": 4329,
+ "request_id": "81c4ee6f433d",
+ "asked_at": "2026-11-06T04:21:57.066Z"
+}

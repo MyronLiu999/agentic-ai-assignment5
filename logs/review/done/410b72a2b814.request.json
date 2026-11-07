@@ -1,0 +1,27 @@
+{
+ "run_id": "planned-4306-s01-e92d01",
+ "action": "open_pr",
+ "action_class": "open_pr",
+ "args": {
+  "issue": "issue-4306",
+  "branch": "repomind/issue-4306",
+  "title": "Fix the upload behavior to show the correct error message",
+  "body": "File: src/i18n/en.json\n\nThe current implementation only displays a generic 'Upload failed' message without specifying the error details such as the row number when an upload is retried after an initial failure. This issue can be resolved by ensuring that the error message 'ui.upload.atRow' is used to provide more information about the failure, specifically indicating the problematic row number to the user."
+ },
+ "facts": {
+  "issue": 4306,
+  "issue_opened_by_agent": false,
+  "minutes_since_human_comment": 42.2,
+  "label": null,
+  "branch": "repomind/issue-4306",
+  "branch_protected": false,
+  "base": "develop",
+  "target_created_by_agent": true,
+  "paths": []
+ },
+ "kind": "approval",
+ "column": "requires_approval",
+ "issue": 4306,
+ "request_id": "410b72a2b814",
+ "asked_at": "2026-11-06T04:15:37.140Z"
+}

@@ -140,8 +140,10 @@ def load_definition(module: str) -> dict:
 
 class ToolRegistry:
     def __init__(self, ctx: RunContext, modules=MODULES):
+        from policy.hook import Policy   # Assignment 5: the autonomy policy, before every call
         self.ctx = ctx
-        self.hooks: list = [allow_all]
+        self.policy = Policy(ctx)        # the way reads policy.last to hold or stop a run
+        self.hooks: list = [self.policy]
         self.protocol_errors = 0
         self._tools: dict[str, tuple[str, dict, object]] = {}
         for module in modules:

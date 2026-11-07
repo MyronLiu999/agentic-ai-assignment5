@@ -1,0 +1,27 @@
+{
+ "run_id": "planned-4304-s01-45e13a",
+ "action": "open_pr",
+ "action_class": "open_pr",
+ "args": {
+  "issue": "issue-4304",
+  "branch": "repomind/issue-4304",
+  "title": "Handle AccessDenied in purgeExpiredFailedUploads to continue removing expired uploads",
+  "body": "File: src/ingest/worker.ts\n\nThe purgeExpiredFailedUploads function stops processing if an AccessDenied error occurs on a specific object key, preventing the deletion of subsequent expired uploads. The proposal is to catch the AccessDenied exception for individual keys, log the error, and continue processing the remaining items to ensure expired uploads are successfully purged."
+ },
+ "facts": {
+  "issue": 4304,
+  "issue_opened_by_agent": true,
+  "minutes_since_human_comment": null,
+  "label": null,
+  "branch": "repomind/issue-4304",
+  "branch_protected": false,
+  "base": "develop",
+  "target_created_by_agent": true,
+  "paths": []
+ },
+ "kind": "approval",
+ "column": "requires_approval",
+ "issue": 4304,
+ "request_id": "65a5237fd25a",
+ "asked_at": "2026-11-06T04:15:03.860Z"
+}

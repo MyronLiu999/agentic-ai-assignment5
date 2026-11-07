@@ -1,0 +1,27 @@
+{
+ "run_id": "planned-4323-s01-480ef2",
+ "action": "open_pr",
+ "action_class": "open_pr",
+ "args": {
+  "issue": "issue-4323",
+  "branch": "repomind/issue-4323",
+  "title": "Handle invalid time zone in rollup to prevent interruption",
+  "body": "File: src/notifications/rollup.ts\n\nAdd a validation or default handling for invalid time zones in the rollup function to ensure that a single invalid entry does not halt the entire weekly rollup process. This change will help in avoiding the interruption of weekly rollups for other users when one account has an improperly formatted time zone."
+ },
+ "facts": {
+  "issue": 4323,
+  "issue_opened_by_agent": true,
+  "minutes_since_human_comment": null,
+  "label": null,
+  "branch": "repomind/issue-4323",
+  "branch_protected": false,
+  "base": "develop",
+  "target_created_by_agent": true,
+  "paths": []
+ },
+ "kind": "approval",
+ "column": "requires_approval",
+ "issue": 4323,
+ "request_id": "0b3a8b2a6515",
+ "asked_at": "2026-11-06T04:19:42.109Z"
+}

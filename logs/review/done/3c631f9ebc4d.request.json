@@ -1,0 +1,27 @@
+{
+ "run_id": "planned-4301-s01-d4e875",
+ "action": "open_pr",
+ "action_class": "open_pr",
+ "args": {
+  "issue": "issue-4301",
+  "branch": "repomind/issue-4301",
+  "title": "Notify report owner when scheduled exports fail",
+  "body": "File: src/export/scheduler.ts\n\nAdd logic to notify the report owner when a scheduled export fails. This will prevent situations where the report remains due without the owner's knowledge, as seen in the recurring failures of 'Vendor payments YTD'. Implement a notification mechanism within the `runScheduledExport` function to alert the owner about failed exports."
+ },
+ "facts": {
+  "issue": 4301,
+  "issue_opened_by_agent": true,
+  "minutes_since_human_comment": null,
+  "label": null,
+  "branch": "repomind/issue-4301",
+  "branch_protected": false,
+  "base": "develop",
+  "target_created_by_agent": true,
+  "paths": []
+ },
+ "kind": "approval",
+ "column": "requires_approval",
+ "issue": 4301,
+ "request_id": "3c631f9ebc4d",
+ "asked_at": "2026-11-06T04:15:07.302Z"
+}

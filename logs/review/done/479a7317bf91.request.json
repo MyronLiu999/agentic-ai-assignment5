@@ -1,0 +1,27 @@
+{
+ "run_id": "planned-4327-s01-5994b3",
+ "action": "open_pr",
+ "action_class": "open_pr",
+ "args": {
+  "issue": "issue-4327",
+  "branch": "repomind/issue-4327",
+  "title": "Clarify schedule exclusion in report duplication API",
+  "body": "File: docs/API.md\n\nThe documentation for the API endpoint `POST /reports/:id/duplicate` mentions that when duplicating a report, the schedule is not copied to the duplicate. Clarifying this behavior in the documentation ensures users understand that they will need to set the schedule again for the duplicated report, as it is not carried over by default."
+ },
+ "facts": {
+  "issue": 4327,
+  "issue_opened_by_agent": false,
+  "minutes_since_human_comment": null,
+  "label": null,
+  "branch": "repomind/issue-4327",
+  "branch_protected": false,
+  "base": "develop",
+  "target_created_by_agent": true,
+  "paths": []
+ },
+ "kind": "approval",
+ "column": "requires_approval",
+ "issue": 4327,
+ "request_id": "479a7317bf91",
+ "asked_at": "2026-11-06T04:20:18.509Z"
+}

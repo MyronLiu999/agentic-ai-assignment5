@@ -1,0 +1,27 @@
+{
+ "run_id": "planned-4310-s01-e556ad",
+ "action": "open_pr",
+ "action_class": "open_pr",
+ "args": {
+  "issue": "issue-4310",
+  "branch": "repomind/issue-4310",
+  "title": "Add account ownership verification when creating reports",
+  "body": "File: src/api/reports.ts\n\nImplement a verification step to ensure the account ownership is validated when creating a report. This involves adding a check similar to the one used in 'uploads' to verify that the `accountId` belongs to the current user before proceeding with report creation. This change will prevent unauthorized report creations on other users' accounts, thus maintaining data privacy and integrity."
+ },
+ "facts": {
+  "issue": 4310,
+  "issue_opened_by_agent": false,
+  "minutes_since_human_comment": null,
+  "label": null,
+  "branch": "repomind/issue-4310",
+  "branch_protected": false,
+  "base": "develop",
+  "target_created_by_agent": true,
+  "paths": []
+ },
+ "kind": "approval",
+ "column": "requires_approval",
+ "issue": 4310,
+ "request_id": "ae428faaa39b",
+ "asked_at": "2026-11-06T04:18:57.244Z"
+}

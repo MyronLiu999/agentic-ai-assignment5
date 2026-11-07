@@ -1,0 +1,27 @@
+{
+ "run_id": "planned-4320-s01-185ada",
+ "action": "open_pr",
+ "action_class": "open_pr",
+ "args": {
+  "issue": "issue-4320",
+  "branch": "repomind/issue-4320",
+  "title": "Allow users to choose the send time for scheduled exports",
+  "body": "File: $fill\n\n$fill."
+ },
+ "facts": {
+  "issue": 4320,
+  "issue_opened_by_agent": false,
+  "minutes_since_human_comment": 51.1,
+  "label": null,
+  "branch": "repomind/issue-4320",
+  "branch_protected": false,
+  "base": "develop",
+  "target_created_by_agent": true,
+  "paths": []
+ },
+ "kind": "approval",
+ "column": "requires_approval",
+ "issue": 4320,
+ "request_id": "a33d77086054",
+ "asked_at": "2026-11-06T04:19:24.728Z"
+}

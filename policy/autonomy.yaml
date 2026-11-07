@@ -1,0 +1,38 @@
+# RepoMind's autonomy policy (checks/FORMATS.md, section 13.1).
+#
+# Sorted by consequence, not by tool name: what the action does, whether it can be
+# undone, who would see it go wrong. policy/hook.py reads this file and enforces it
+# before every call; the model never sees it. An action class is an action, or an
+# action and a circumstance decided from the call's facts (harness/facts.py), which
+# the harness computes and the model cannot influence.
+
+independent:            # runs on its own
+  - read_issue
+  - search_repo
+  - read_file
+  - run_tests
+  - apply_label
+  - close_issue
+  - post_comment/agent_opened
+  - post_comment/human_quiet
+
+requires_approval:      # waits for the reviewer; no answer is never a yes
+  - post_comment/human_active
+  - open_pr
+  - push_commit/agent_branch
+
+prohibited:             # never runs, whoever answers
+  - merge_pr
+  - push_commit/protected_branch
+  - push_commit/shared_branch
+
+classes:                # what decides each circumstance, in words, from the facts (13.2)
+  post_comment/human_active: a person commented on the thread within the last 60 minutes (minutes_since_human_comment <= 60); checked first, whoever opened the issue
+  post_comment/agent_opened: RepoMind opened the issue (issue_opened_by_agent) and no person commented in the last 60 minutes
+  post_comment/human_quiet: a person opened the issue and nobody commented in the last 60 minutes, or ever
+  push_commit/protected_branch: the branch is protected (branch_protected), which is main on Ledgerline's remote
+  push_commit/agent_branch: an unprotected branch this run's own pull request opened (target_created_by_agent)
+  push_commit/shared_branch: any other unprotected branch, such as develop, or no branch at all
+
+escalate:               # Part C: the run stops to ask, with a packet, before it goes on
+  - before a push, when this run's own test run on that branch failed (signal failed_verification)

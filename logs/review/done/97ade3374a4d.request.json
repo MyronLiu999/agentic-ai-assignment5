@@ -1,0 +1,27 @@
+{
+ "run_id": "planned-4338-s01-1e8da5",
+ "action": "open_pr",
+ "action_class": "open_pr",
+ "args": {
+  "issue": "issue-4338",
+  "branch": "repomind/issue-4338",
+  "title": "Include missing folders in README's project layout table",
+  "body": "File: README.md\n\nAdd the missing directories `src/storage/`, `src/util/`, `config/`, and `test/` to the 'Project layout' table in the README. This ensures that the documentation accurately reflects the current structure of the repository."
+ },
+ "facts": {
+  "issue": 4338,
+  "issue_opened_by_agent": true,
+  "minutes_since_human_comment": null,
+  "label": null,
+  "branch": "repomind/issue-4338",
+  "branch_protected": false,
+  "base": "develop",
+  "target_created_by_agent": true,
+  "paths": []
+ },
+ "kind": "approval",
+ "column": "requires_approval",
+ "issue": 4338,
+ "request_id": "97ade3374a4d",
+ "asked_at": "2026-11-06T04:22:27.886Z"
+}

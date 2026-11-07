@@ -1,0 +1,27 @@
+{
+ "run_id": "planned-4312-s01-63bf1b",
+ "action": "open_pr",
+ "action_class": "open_pr",
+ "args": {
+  "issue": "issue-4312",
+  "branch": "repomind/issue-4312",
+  "title": "Update process description for correct number of timers in ARCHITECTURE.md",
+  "body": "File: docs/ARCHITECTURE.md\n\nThe architecture overview incorrectly states that the process runs two timers: scheduled exports and the weekly rollup. However, there is a third timer, an hourly purge of failed uploads, that is not mentioned in the summary. This pull request proposes updating the document to add the missing hourly purge to the summary, ensuring the documentation accurately matches the code and current system behavior."
+ },
+ "facts": {
+  "issue": 4312,
+  "issue_opened_by_agent": true,
+  "minutes_since_human_comment": null,
+  "label": null,
+  "branch": "repomind/issue-4312",
+  "branch_protected": false,
+  "base": "develop",
+  "target_created_by_agent": true,
+  "paths": []
+ },
+ "kind": "approval",
+ "column": "requires_approval",
+ "issue": 4312,
+ "request_id": "d78a8961e915",
+ "asked_at": "2026-11-06T04:18:58.062Z"
+}

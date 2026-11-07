@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+"""Place a recorded day's calls with the hook's own code (checks/FORMATS.md, 13.10).
+
+    bin/replay_policy fixtures/rollup_2026-08-04.jsonl            # a table per column
+    bin/replay_policy fixtures/rollup_2026-08-04.jsonl --json     # one JSON object
+    bin/replay_policy fixtures/rollup_2026-08-04.jsonl --batched  # with one plan review per run
+
+Every line is placed by policy.hook.placement(), the function the live hook uses, on
+the facts the line was recorded with. prompts_per_day is the requires-approval
+total; seconds_per_prompt is ten minutes of a person's day (600 s) divided by it.
+
+--batched puts a plan review in place: before a run's first write, one prompt shows
+everything the run has already drafted, which in the planned way is the comment's
+text and the pull request's arguments (both are drafted and checked before the
+first write). One review per run then covers every call of the classes in COVERS;
+any other gated call still asks on its own.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+
+from harness.formats import COLUMNS  # noqa: E402
+from policy.hook import load_policy, placement  # noqa: E402
+
+BUDGET_S = 600
+COVERS = ["open_pr", "post_comment/human_active"]   # what one plan review shows: the drafted PR and comment
+
+
+def replay(lines: list[dict], batched: bool = False) -> dict:
+    policy = load_policy()
+    out = {c: {} for c in COLUMNS}
+    reviewed_runs, uncovered = set(), 0
+    for line in lines:
+        klass, column = placement(line["action"], line.get("facts") or {}, policy)
+        out[column][klass] = out[column].get(klass, 0) + 1
+        if column == "requires_approval":
+            if klass in COVERS:
+                reviewed_runs.add(line.get("run_id"))
+            else:
+                uncovered += 1
+    for column in COLUMNS:
+        out[column] = dict(sorted(out[column].items(), key=lambda kv: (-kv[1], kv[0])))
+    prompts = len(reviewed_runs) + uncovered if batched else sum(out["requires_approval"].values())
+    out["prompts_per_day"] = prompts
+    out["seconds_per_prompt"] = round(BUDGET_S / prompts, 1) if prompts else None
+    if batched:
+        out["covers"] = list(COVERS)
+    return out
+
+
+def main(argv=None) -> int:
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("file", help="a recorded day: one JSON line per call, with its action and facts")
+    p.add_argument("--batched", action="store_true", help="count prompts with one plan review per run")
+    p.add_argument("--json", action="store_true", help="print one JSON object and nothing else")
+    a = p.parse_args(argv)
+    path = Path(a.file)
+    path = path if path.is_absolute() or path.exists() else ROOT / path
+    lines = [json.loads(x) for x in path.read_text().splitlines() if x.strip()]
+    out = replay(lines, a.batched)
+    if a.json:
+        print(json.dumps(out))
+        return 0
+    print(f"{path.name}: {len(lines)} calls placed by policy/hook.py")
+    for column in COLUMNS:
+        print(f"\n{column} ({sum(out[column].values())})")
+        for klass, n in out[column].items():
+            print(f"  {klass:<32} {n:>4}")
+    print(f"\nprompts per day: {out['prompts_per_day']}"
+          + (f" (one plan review per run covers {', '.join(COVERS)})" if a.batched else ""))
+    print(f"seconds per prompt, at {BUDGET_S // 60} minutes a day: {out['seconds_per_prompt']}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

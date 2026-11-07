@@ -1,0 +1,27 @@
+{
+ "run_id": "planned-4328-s01-2c8135",
+ "action": "open_pr",
+ "action_class": "open_pr",
+ "args": {
+  "issue": "issue-4328",
+  "branch": "repomind/issue-4328",
+  "title": "Handle idle connections before shutdown to avoid timeout",
+  "body": "File: src/index.ts\n\nPropose to address the issue by ensuring that idle connections on the HTTP server are addressed before initiating server shutdown. This can be done by incorporating mechanisms to drain or close idle keep-alive connections when a shutdown is initiated, thereby preventing the server from hanging and ensuring import jobs complete successfully. This adjustment should help avoid the repeated shutdown timeout and exit code 1 situation encountered during the deployment process."
+ },
+ "facts": {
+  "issue": 4328,
+  "issue_opened_by_agent": true,
+  "minutes_since_human_comment": null,
+  "label": null,
+  "branch": "repomind/issue-4328",
+  "branch_protected": false,
+  "base": "develop",
+  "target_created_by_agent": true,
+  "paths": []
+ },
+ "kind": "approval",
+ "column": "requires_approval",
+ "issue": 4328,
+ "request_id": "16e332418c8b",
+ "asked_at": "2026-11-06T04:20:28.378Z"
+}

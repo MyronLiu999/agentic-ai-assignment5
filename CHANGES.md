@@ -23,3 +23,8 @@ Removals are logged like additions.
 - **Removed:** the conversation from every checkpoint; the issue's own text from what memory shows a prompt
 - **Constrained:** a crashed run to resume, never restart; what is remembered to what a person stated or RepoMind derived, each with its source
 
+## Assignment 5
+- **Added:** an autonomy policy in three columns (policy/autonomy.yaml), enforced by a hook before every call that places each call by its action and circumstance from the harness's facts; a reviewer gate with a decisions log and a screen (policy/screen.py); a hold when nobody answers; the inbox drained before every model call, with a boundary parsed into a rule (policy/rules.jsonl); an escalation with a packet before a push whose own tests failed; a live notification; bin/stop, bin/rollback and bin/replay_policy; the disclosure line on every comment
+- **Removed:** the hook that allowed every call; unasked comments into live human conversations, pull requests and pushes now wait for a person
+- **Constrained:** merges and pushes to main or any shared branch to never, whoever answers; a gated call to a person's yes, never a timeout's; a run to stop at its next call when a person says so, and to touch no path a user ruled out, after any compaction; every comment to say an agent wrote it
+

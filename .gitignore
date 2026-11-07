@@ -5,3 +5,6 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# Local test scratch files
+.test-tmp/

@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+"""Offset one run's writes, newest first (checks/FORMATS.md, 13.6 and 13.10).
+
+    bin/rollback <run_id>           # one line per write: what it did, or none
+    bin/rollback <run_id> --json    # the same, as reports/LAB_05.json's rollback object
+    bin/rollback <run_id> --dry-run # what it would do, changing nothing
+
+It reads the run's writes from the remote's own write log (Tracker.log), never from
+the trace or the model, and offsets each one that happened through the remote's
+compensating endpoints: a label comes off (remove_label), a pull request is closed
+unmerged (close_pr), a closed issue is reopened (reopen_issue). A comment, a push and
+a merge have no endpoint, on purpose: each is listed as none, for a person to answer.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+
+from harness.tracker import RemoteRefused, Tracker  # noqa: E402
+
+HAPPENED = ("written", "timeout_after_commit")
+ENDPOINTS = {"apply_label": ("label", "remove_label"), "open_pr": ("pr", "close_pr"),
+             "close_issue": ("close", "reopen_issue")}
+WHY_NONE = {"post_comment": "a comment cannot be deleted: it has been read",
+            "push_commit": "nothing undoes a push", "merge_pr": "nothing undoes a merge"}
+
+
+def rollback(run_id: str, dry_run: bool = False) -> dict:
+    tracker = Tracker(flaky=False, readback_fail=False)
+    log = tracker.log(run_id)
+    done = {(w["action"], w["target"]) for w in log if w["outcome"] == "compensated"}
+    writes = [w for w in log if w["outcome"] in HAPPENED and w["action"] not in
+              ("remove_label", "close_pr", "reopen_issue")]
+    out = {"run_id": run_id, "compensated": [], "none": []}
+    for w in reversed(writes):
+        action, target = w["action"], w["target"]
+        if action not in ENDPOINTS:
+            out["none"].append({"action": action, "target": target})
+            print(f"{action:<13} {target:<28} none: {WHY_NONE.get(action, 'no compensating endpoint')}")
+            continue
+        kind, endpoint = ENDPOINTS[action]
+        row = tracker.by_key(run_id, kind, w["key"]) if w.get("key") else None
+        if row is None:
+            out["none"].append({"action": action, "target": target})
+            print(f"{action:<13} {target:<28} none: the remote has no row for it")
+            continue
+        if (endpoint, target) in done:
+            print(f"{action:<13} {target:<28} already offset by {endpoint}")
+            continue
+        if dry_run:
+            print(f"{action:<13} {target:<28} would be offset by {endpoint}({row['id']})")
+            continue
+        try:
+            getattr(tracker, endpoint)(run_id, row["id"])
+        except RemoteRefused as exc:
+            out["none"].append({"action": action, "target": target})
+            print(f"{action:<13} {target:<28} none: {exc}")
+            continue
+        out["compensated"].append({"action": action, "target": target, "by": endpoint})
+        print(f"{action:<13} {target:<28} offset by {endpoint}({row['id']})")
+    if not writes:
+        print(f"{run_id} made no writes the remote received")
+    return out
+
+
+def main(argv=None) -> int:
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("run_id")
+    p.add_argument("--json", action="store_true", help="also print the result as one JSON object, last")
+    p.add_argument("--dry-run", action="store_true", help="change nothing; say what would be done")
+    a = p.parse_args(argv)
+    out = rollback(a.run_id, a.dry_run)
+    if not a.dry_run:                       # a record of what was done, for eval/lab05_report.py
+        from harness.clock import now
+        (ROOT / "logs").mkdir(exist_ok=True)
+        with (ROOT / "logs" / "rollbacks.jsonl").open("a") as fh:
+            fh.write(json.dumps({"at": now(), **out}) + "\n")
+    if a.json:
+        print(json.dumps(out))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

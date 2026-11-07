@@ -1,0 +1,27 @@
+{
+ "run_id": "planned-4331-s01-183cc0",
+ "action": "open_pr",
+ "action_class": "open_pr",
+ "args": {
+  "issue": "issue-4331",
+  "branch": "repomind/issue-4331",
+  "title": "Neutralise text values starting with special characters in CSV exports",
+  "body": "File: src/util/money.ts\n\nModify the CSV export functionality to neutralise text values that start with '=', '+', '-', or '@' by prefixing them with a single quote or other neutralising character, preventing them from being treated as formulas in applications like Excel or Google Sheets. This will ensure descriptions like `=HYPERLINK(...)` are treated as plain text rather than as executable formulas."
+ },
+ "facts": {
+  "issue": 4331,
+  "issue_opened_by_agent": true,
+  "minutes_since_human_comment": null,
+  "label": null,
+  "branch": "repomind/issue-4331",
+  "branch_protected": false,
+  "base": "develop",
+  "target_created_by_agent": true,
+  "paths": []
+ },
+ "kind": "approval",
+ "column": "requires_approval",
+ "issue": 4331,
+ "request_id": "82f6141466b9",
+ "asked_at": "2026-11-06T04:21:57.335Z"
+}

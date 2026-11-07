@@ -1,0 +1,27 @@
+{
+ "run_id": "planned-4305-s01-6e5868",
+ "action": "open_pr",
+ "action_class": "open_pr",
+ "args": {
+  "issue": "issue-4305",
+  "branch": "repomind/issue-4305",
+  "title": "Allow users to update email addresses with validation",
+  "body": "File: src/api/errors.ts\n\nIntroduce a feature to let users update their email addresses in their profiles. The current implementation returns a validation error when users attempt to change their email address. Enhance the profile update process to accept new email addresses, perhaps by sending a confirmation link to the new address. This update will help users transition smoothly when their email domain changes without needing to recreate accounts and reports."
+ },
+ "facts": {
+  "issue": 4305,
+  "issue_opened_by_agent": false,
+  "minutes_since_human_comment": null,
+  "label": null,
+  "branch": "repomind/issue-4305",
+  "branch_protected": false,
+  "base": "develop",
+  "target_created_by_agent": true,
+  "paths": []
+ },
+ "kind": "approval",
+ "column": "requires_approval",
+ "issue": 4305,
+ "request_id": "e8d0a2e5cd37",
+ "asked_at": "2026-11-06T04:15:16.367Z"
+}

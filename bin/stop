@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+"""Stop a run (checks/FORMATS.md, 13.5 and 13.10).
+
+    bin/stop <run_id>
+
+Writes the stop's `requested` line to logs/stops.jsonl and returns at once. The stop
+is outside the agent: the model is never asked, and nothing the model says can lift
+it. The run's hook (policy/hook.py) reads the log before every tool call, and the way
+before every model call, so the very next call is refused; that refusal writes the
+`effective` line. A person's pending approval for the run is withdrawn from
+bin/review's queue. The run then saves a checkpoint and ends `stopped`;
+`python run.py --resume <run_id>` lifts the stop (a `lifted` line) and goes on.
+"""
+
+from __future__ import annotations
+
+import argparse
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+
+from policy.hook import is_stopped, request_stop  # noqa: E402
+
+
+def main(argv=None) -> int:
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("run_id")
+    a = p.parse_args(argv)
+    if not (ROOT / "runs" / f"{a.run_id}.jsonl").exists():
+        print(f"warning: no trace runs/{a.run_id}.jsonl yet; the stop is recorded anyway", file=sys.stderr)
+    if is_stopped(a.run_id):
+        print(f"{a.run_id} is already stopped")
+        return 0
+    line = request_stop(a.run_id)
+    print(f"stop requested for {a.run_id} at {line['at']}; its next call will be refused")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

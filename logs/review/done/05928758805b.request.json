@@ -1,0 +1,27 @@
+{
+ "run_id": "planned-4307-s01-9139a8",
+ "action": "open_pr",
+ "action_class": "open_pr",
+ "args": {
+  "issue": "issue-4307",
+  "branch": "repomind/issue-4307",
+  "title": "Fix health endpoint to report correct version in production",
+  "body": "File: config/\n\nEnsure the service is started through npm, instead of directly using `node dist/index.js`, so that the health endpoint reports the correct version on production instances. This change will allow the scheduled version check to accurately reflect the deployed release version instead of showing 'dev.'"
+ },
+ "facts": {
+  "issue": 4307,
+  "issue_opened_by_agent": true,
+  "minutes_since_human_comment": null,
+  "label": null,
+  "branch": "repomind/issue-4307",
+  "branch_protected": false,
+  "base": "develop",
+  "target_created_by_agent": true,
+  "paths": []
+ },
+ "kind": "approval",
+ "column": "requires_approval",
+ "issue": 4307,
+ "request_id": "05928758805b",
+ "asked_at": "2026-11-06T04:18:47.223Z"
+}
